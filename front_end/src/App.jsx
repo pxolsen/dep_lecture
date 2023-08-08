@@ -28,6 +28,16 @@ function App() {
     }
   };
 
+  const logOut = async() => {
+    let response = await api.post("users/logout/")
+    if (response.status === 204) {
+      localStorage.removeItem("token")
+      setUser(null)
+      delete api.defaults.headers.common["Authorization"];
+      navigate("/login")
+    }
+  }
+
   useEffect(() => {
     whoAmI();
   }, []);
@@ -38,7 +48,7 @@ function App() {
         <nav>
           <Link to="/home">Home</Link>
           <Link to="/lists">Lists</Link>
-          <button onClick={() => setUser(null)}>Log out</button>
+          <button onClick={logOut}>Log out</button>
           <Link to="/">Register</Link>
           <Link to="/login">Log In</Link>
         </nav>
